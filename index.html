@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Horas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1 id="nome">Carregando...</h1>
+    <span class="status">Sistema de Controle de Horas</span>
+  </header>
+
+  <section class="cards">
+    <div class="card">
+      <h3>Saldo Atual</h3>
+      <p id="saldo">—</p>
+    </div>
+
+    <div class="card">
+      <h3>Saldo Devedor</h3>
+      <p id="devedor">—</p>
+    </div>
+
+    <div class="card">
+      <h3>Previsão de Término</h3>
+      <p id="previsao">—</p>
+    </div>
+  </section>
+
+  <section class="historico">
+    <h2>Histórico</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>+</th>
+          <th>-</th>
+          <th>Saldo</th>
+        </tr>
+      </thead>
+      <tbody id="tabela"></tbody>
+    </table>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
