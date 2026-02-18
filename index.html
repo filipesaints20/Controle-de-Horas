@@ -3,64 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Controle de Horas | Planejamento</title>
+  <title>Controle de Horas</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <div class="container">
 
-    <!-- NOME / PERFIL -->
-    <h2 id="nome">Carregando...</h2>
+    <header class="top">
+      <h2 id="nome">Olá 👋</h2>
+      <p class="subtitle">Acompanhe suas horas em tempo real</p>
+    </header>
 
-    <!-- SALDO -->
-    <div class="card saldo">
-      <span>Saldo Atual</span>
+    <div class="card saldo destaque">
+      <span>Saldo disponível</span>
       <strong id="saldo">0h</strong>
     </div>
 
-    <!-- ÁREA ADM -->
     <div id="admArea" class="card" style="display:none">
-      <h3>Colaboradores</h3>
+      <h3>👥 Colaboradores</h3>
       <select id="colaboradores" onchange="trocarColaborador()"></select>
     </div>
 
-    <!-- LANÇAMENTO -->
     <div class="card">
-      <h3>Lançar Horas</h3>
+      <h3>➕ Lançar horas</h3>
 
-      <label for="tipo">Tipo</label>
       <select id="tipo">
-        <option value="Debito">Débito</option>
-        <option value="Credito">Crédito</option>
+        <option value="Debito">➖ Débito</option>
+        <option value="Credito">➕ Crédito</option>
       </select>
 
-      <label for="horas">Horas</label>
       <input
         type="number"
         id="horas"
-        placeholder="Ex: 2"
-        min="0.1"
+        placeholder="Quantas horas?"
         step="0.1"
       />
 
       <button onclick="lancar()">Salvar</button>
     </div>
 
-    <!-- GRÁFICO -->
     <div class="card">
-      <h3>Projeção de Saldo</h3>
+      <h3>📈 Evolução</h3>
       <canvas id="grafico"></canvas>
     </div>
 
-    <!-- HISTÓRICO -->
     <div class="card">
-      <h3>Histórico</h3>
+      <h3>🕒 Histórico</h3>
 
       <div class="table-wrapper">
         <table>
@@ -72,16 +63,13 @@
               <th>Saldo</th>
             </tr>
           </thead>
-          <tbody id="historico">
-            <!-- preenchido via JS -->
-          </tbody>
+          <tbody id="historico"></tbody>
         </table>
       </div>
     </div>
 
   </div>
 
-  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
