@@ -2,47 +2,36 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Controle de Horas</title>
+  <title>Controle de Horas | RH</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1 id="nome">Carregando...</h1>
-    <span class="status">Sistema de Controle de Horas</span>
+    <h1>Controle de Horas</h1>
+    <p id="nome">Carregando...</p>
   </header>
 
   <section class="cards">
-    <div class="card">
+    <div class="card saldo">
       <h3>Saldo Atual</h3>
-      <p id="saldo">—</p>
-    </div>
-
-    <div class="card">
-      <h3>Saldo Devedor</h3>
-      <p id="devedor">—</p>
-    </div>
-
-    <div class="card">
-      <h3>Previsão de Término</h3>
-      <p id="previsao">—</p>
+      <span id="saldo">0h</span>
     </div>
   </section>
 
   <section class="historico">
-    <h2>Histórico</h2>
+    <h2>Histórico de Movimentações</h2>
     <table>
       <thead>
         <tr>
           <th>Data</th>
-          <th>+</th>
-          <th>-</th>
+          <th>Crédito</th>
+          <th>Débito</th>
           <th>Saldo</th>
         </tr>
       </thead>
-      <tbody id="tabela"></tbody>
+      <tbody id="historico"></tbody>
     </table>
   </section>
 </div>
