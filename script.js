@@ -1,38 +1,117 @@
-const API = "https://script.google.com/macros/s/AKfycbxoP65Aw3OjRo9sfBCnZTyKa0pys8DAwSylLhWfKK2b3LB7G6ZPn22gRfJsstOHddq6/exec";
+const API = "https://script.google.com/macros/s/AKfycbzuHEJjeWrKiIMItTGlf9tOCGqJJJsQFIyKAbCcdsIlRBlzh4NueyTTZdEWEuvyVrOc/exec";
 
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
-fetch(API, {
-  method: "POST",
-  body: JSON.stringify({
-    token: token,
-    action: "get"
-  })
-})
-.then(res => res.json())
-.then(data => {
-  if (data.erro) {
-    document.body.innerHTML = "<h2>Token inválido</h2>";
-    return;
-  }
+let perfil = "";
+let historico = [];
+let colaboradores = [];
 
+// ======================
+// FETCH PRINCIPAL
+// ======================
+fetch(`${API}?token=${token}`)
+  .then(res => res.json())
+  .then(data => {
+    if (data.erro) {
+      document.body.innerHTML = "<h2>Token inválido</h2>";
+      return;
+    }
+
+    perfil = data.perfil;
+
+    if (perfil === "ADM") {
+      carregarADM(data);
+    } else {
+      carregarUSER(data);
+    }
+  })
+  .catch(() => {
+    document.body.innerHTML = "<h2>Erro ao carregar dados</h2>";
+  });
+
+// ======================
+// USER
+// ======================
+function carregarUSER(data) {
   document.getElementById("nome").innerText = data.nome;
   document.getElementById("saldo").innerText = data.saldo + "h";
 
+  historico = data.historico;
+  renderHistorico();
+  renderGrafico();
+}
+
+// ======================
+// ADM
+// ======================
+function carregarADM(data) {
+  document.getElementById("nome").innerText = "ADM - " + data.nome;
+  document.getElementById("admArea").style.display = "block";
+
+  colaboradores = data.colaboradores;
+  const select = document.getElementById("colaboradores");
+  select.innerHTML = "";
+
+  colaboradores.forEach((c, i) => {
+    select.innerHTML += `<option value="${i}">${c.nome}</option>`;
+  });
+
+  carregarColaborador(0);
+}
+
+function carregarColaborador(index) {
+  const c = colaboradores[index];
+  document.getElementById("saldo").innerText = c.saldo + "h";
+  historico = c.historico;
+  renderHistorico();
+  renderGrafico();
+}
+
+function trocarColaborador() {
+  const select = document.getElementById("colaboradores");
+  carregarColaborador(select.value);
+}
+
+// ======================
+// HISTÓRICO
+// ======================
+function renderHistorico() {
   const tbody = document.getElementById("historico");
-  data.historico.forEach(h => {
+  tbody.innerHTML = "";
+
+  historico.slice().reverse().forEach(h => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${new Date(h.data).toLocaleDateString()}</td>
-      <td>${h.credito}</td>
-      <td>${h.debito}</td>
-      <td>${h.saldo}</td>
+      <td>${h.tipo}</td>
+      <td>${h.horas}h</td>
+      <td>${h.saldo}h</td>
     `;
     tbody.appendChild(tr);
   });
-})
-.catch(() => {
-  document.body.innerHTML = "<h2>Erro ao carregar dados</h2>";
-});
+}
+
+// ======================
+// GRÁFICO
+// ======================
+function renderGrafico() {
+  const ctx = document.getElementById("grafico");
+
+  if (window.chart) window.chart.destroy();
+
+  window.chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: historico.map(h =>
+        new Date(h.data).toLocaleDateString()
+      ),
+      datasets: [{
+        label: "Saldo",
+        data: historico.map(h => h.saldo),
+        borderWidth: 2
+      }]
+    }
+  });
+}
 
